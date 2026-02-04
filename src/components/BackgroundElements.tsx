@@ -1,4 +1,5 @@
 import React from 'react';
+import Bubbles from './Bubbles';
 
 const BackgroundElements: React.FC = () => {
   return (
@@ -25,6 +26,9 @@ const BackgroundElements: React.FC = () => {
           zIndex: 1
         }}
       />
+      
+      {/* Bubbles Animation */}
+      <Bubbles />
       
       {/* Wave Animation */}
       <div className="wave-container">
