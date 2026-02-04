@@ -58,7 +58,7 @@ const TypeChart: React.FC<TypeChartProps> = ({ data }) => {
               borderRadius: '50%',
               background: '#030503',
               boxShadow: 'inset 0 0 40px rgba(0, 0, 0, 0.9)',
-              left: centerX - innerRadius,
+              left: centerX - innerRadius + 6,
               top: centerY - innerRadius,
             }}
           >
