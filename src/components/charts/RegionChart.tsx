@@ -24,12 +24,13 @@ const RegionChart: React.FC<RegionChartProps> = ({ data }) => {
         <div 
           className="px-3 py-2 rounded-lg"
           style={{
-            background: 'rgba(5, 15, 5, 0.9)',
-            border: '1px solid rgba(0, 255, 68, 0.3)'
+            background: 'rgba(5, 15, 5, 0.95)',
+            border: '1px solid rgba(0, 255, 68, 0.5)',
+            boxShadow: '0 4px 20px rgba(0, 255, 68, 0.2)'
           }}
         >
-          <p className="text-white text-sm font-semibold">{label}</p>
-          <p className="green-text text-sm">{payload[0].value.toLocaleString()} pescatori</p>
+          <p style={{ color: '#00FF66' }} className="text-sm font-semibold">{label}</p>
+          <p style={{ color: '#33FF88' }} className="text-sm">{payload[0].value.toLocaleString()} pescatori</p>
         </div>
       );
     }
@@ -48,20 +49,23 @@ const RegionChart: React.FC<RegionChartProps> = ({ data }) => {
             <YAxis 
               type="category" 
               dataKey="name" 
-              tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 11 }}
+              tick={{ fill: '#00FF66', fontSize: 11 }}
               width={110}
               axisLine={false}
               tickLine={false}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip 
+              content={<CustomTooltip />} 
+              cursor={{ fill: 'rgba(0, 255, 68, 0.15)' }}
+            />
             <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={22}>
               {chartData.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index]} stroke="#00FF44" strokeWidth={1} />
+                <Cell key={`cell-${index}`} fill={colors[index]} stroke="none" />
               ))}
               <LabelList 
                 dataKey="value" 
                 position="right" 
-                fill="rgba(255,255,255,0.7)" 
+                fill="#00FF66"
                 fontSize={11}
                 formatter={(value: number) => value.toLocaleString()}
               />
