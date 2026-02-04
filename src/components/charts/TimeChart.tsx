@@ -22,7 +22,7 @@ const TimeChart: React.FC<TimeChartProps> = ({ data }) => {
           <BarChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <XAxis 
               dataKey="name" 
-              tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 12 }}
+              tick={{ fill: '#00FF66', fontSize: 12 }}
               axisLine={false}
               tickLine={false}
             />
@@ -35,13 +35,14 @@ const TimeChart: React.FC<TimeChartProps> = ({ data }) => {
             </defs>
             <Bar dataKey="value" radius={[8, 8, 0, 0]} barSize={50}>
               {chartData.map((_, index) => (
-                <Cell key={`cell-${index}`} fill="url(#timeGradient)" stroke="#00FF44" strokeWidth={2} />
+                <Cell key={`cell-${index}`} fill="url(#timeGradient)" stroke="none" />
               ))}
               <LabelList 
                 dataKey="value" 
                 position="top" 
-                fill="rgba(255,255,255,0.7)" 
-                fontSize={11}
+                fill="#00FF66"
+                fontSize={12}
+                fontWeight={600}
               />
             </Bar>
           </BarChart>
