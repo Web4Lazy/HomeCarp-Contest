@@ -1,4 +1,5 @@
 import React from 'react';
+import { Flame } from 'lucide-react';
 
 interface HeaderProps {
   activeFilter: 'today' | 'week' | 'month';
@@ -47,9 +48,25 @@ const Header: React.FC<HeaderProps> = ({ activeFilter, onFilterChange, lastUpdat
 
       {/* Main Title */}
       <h1 
-        className="text-lg md:text-[1.8rem] font-extrabold uppercase tracking-[2px] md:tracking-[3px] my-4 gradient-text animate-pulse-glow"
+        className="text-lg md:text-[1.8rem] font-extrabold uppercase tracking-[2px] md:tracking-[3px] my-4 gradient-text animate-pulse-glow flex items-center justify-center gap-2"
       >
-        🔥 Pesca. Competi. Domina. 🔥
+        <span 
+          className="inline-flex"
+          style={{
+            filter: 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+          }}
+        >
+          <Flame size={24} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+        </span>
+        Pesca. Competi. Domina.
+        <span 
+          className="inline-flex"
+          style={{
+            filter: 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+          }}
+        >
+          <Flame size={24} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+        </span>
       </h1>
 
       {/* Subtitle */}
