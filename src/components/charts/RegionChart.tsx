@@ -42,7 +42,7 @@ const RegionChart: React.FC<RegionChartProps> = ({ data }) => {
       <h3 className="text-white text-base font-semibold mb-4 text-center">
         🗺️ Distribuzione Geografica
       </h3>
-      <div className="h-[350px]">
+      <div className="h-[420px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} layout="vertical" margin={{ left: 10, right: 50 }}>
             <XAxis type="number" hide />
@@ -58,7 +58,7 @@ const RegionChart: React.FC<RegionChartProps> = ({ data }) => {
               content={<CustomTooltip />} 
               cursor={{ fill: 'rgba(0, 255, 68, 0.15)' }}
             />
-            <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={22}>
+            <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={32}>
               {chartData.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={colors[index]} stroke="none" />
               ))}
