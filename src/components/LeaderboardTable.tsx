@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { LeaderboardPlayer } from '@/data/dashboardData';
 
 interface LeaderboardTableProps {
@@ -6,6 +6,29 @@ interface LeaderboardTableProps {
 }
 
 const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ players }) => {
+  const [visibleRows, setVisibleRows] = useState<Set<number>>(new Set());
+  const rowRefs = useRef<(HTMLTableRowElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = Number(entry.target.getAttribute('data-index'));
+          if (entry.isIntersecting) {
+            setVisibleRows((prev) => new Set([...prev, index]));
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    rowRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [players]);
+
   const getRankDisplay = (rank: number): string => {
     if (rank === 1) return '🥇';
     if (rank === 2) return '🥈';
@@ -43,9 +66,14 @@ const LeaderboardTable: React.FC<LeaderboardTableProps> = ({ players }) => {
             {players.map((player, index) => (
               <tr
                 key={player.rank}
+                ref={(el) => (rowRefs.current[index] = el)}
+                data-index={index}
                 className="transition-all duration-300 hover:translate-x-1"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.01)'
+                  background: 'rgba(255, 255, 255, 0.01)',
+                  opacity: visibleRows.has(index) ? 1 : 0,
+                  transform: visibleRows.has(index) ? 'translateX(0)' : 'translateX(-30px)',
+                  transition: `all 0.5s ease ${index * 0.05}s`
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(0, 255, 68, 0.06)';

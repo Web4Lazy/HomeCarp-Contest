@@ -6,6 +6,9 @@ const CountdownTimer: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const countdown = useCountdown();
 
+  // Check if less than 1 day remaining
+  const isUrgent = countdown.weeks === 0 && countdown.days === 0;
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -47,7 +50,7 @@ const CountdownTimer: React.FC = () => {
   return (
     <div
       onClick={handleClick}
-      className="fixed cursor-pointer transition-all duration-400"
+      className={`fixed cursor-pointer transition-all duration-400 ${isUrgent ? 'animate-urgent-pulse' : ''}`}
       style={{
         bottom: isMobile ? 20 : 30,
         right: isMobile ? 20 : 30,
@@ -55,9 +58,13 @@ const CountdownTimer: React.FC = () => {
         width: containerSize,
         height: containerSize,
         borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(10, 25, 10, 0.95) 0%, rgba(5, 15, 5, 0.98) 100%)',
-        border: '2px solid #00FF66',
-        boxShadow: '0 0 20px rgba(0, 255, 68, 0.4), 0 0 40px rgba(0, 255, 68, 0.2), inset 0 0 15px rgba(0, 255, 68, 0.1)',
+        background: isUrgent 
+          ? 'radial-gradient(ellipse at center, rgba(20, 35, 10, 0.98) 0%, rgba(10, 20, 5, 0.99) 100%)'
+          : 'radial-gradient(ellipse at center, rgba(10, 25, 10, 0.95) 0%, rgba(5, 15, 5, 0.98) 100%)',
+        border: isUrgent ? '3px solid #00FF66' : '2px solid #00FF66',
+        boxShadow: isUrgent
+          ? '0 0 40px rgba(0, 255, 68, 0.6), 0 0 80px rgba(0, 255, 68, 0.3), inset 0 0 25px rgba(0, 255, 68, 0.2)'
+          : '0 0 20px rgba(0, 255, 68, 0.4), 0 0 40px rgba(0, 255, 68, 0.2), inset 0 0 15px rgba(0, 255, 68, 0.1)',
       }}
     >
       {/* Bomb Fuse */}
@@ -74,31 +81,46 @@ const CountdownTimer: React.FC = () => {
           transition: 'opacity 0.3s ease'
         }}
       >
-        {/* Spark */}
+        {/* Spark - more intense when urgent */}
         <div 
           className="absolute animate-fuse-spark"
           style={{
             top: -8,
             left: '50%',
-            width: 10,
-            height: 10,
+            width: isUrgent ? 14 : 10,
+            height: isUrgent ? 14 : 10,
             background: '#00FF66',
             borderRadius: '50%',
-            boxShadow: '0 0 15px #00FF66, 0 0 30px #00FF66'
+            boxShadow: isUrgent 
+              ? '0 0 25px #00FF66, 0 0 50px #00FF66, 0 0 75px #00FF44'
+              : '0 0 15px #00FF66, 0 0 30px #00FF66'
           }}
         />
       </div>
 
-      {/* Rotating Ring */}
+      {/* Rotating Ring - faster when urgent */}
       <div 
-        className="absolute inset-[5%] rounded-full animate-timer-rotate"
+        className="absolute inset-[5%] rounded-full"
         style={{
-          border: '2px solid rgba(0, 255, 68, 0.3)',
+          border: isUrgent ? '3px solid rgba(0, 255, 68, 0.5)' : '2px solid rgba(0, 255, 68, 0.3)',
           borderTopColor: '#00FF66',
           opacity: isExpanded ? 1 : 0,
-          transition: 'opacity 0.3s ease'
+          transition: 'opacity 0.3s ease',
+          animation: isUrgent ? 'timerRotate 3s linear infinite' : 'timerRotate 10s linear infinite'
         }}
       />
+
+      {/* Second rotating ring when urgent */}
+      {isUrgent && isExpanded && (
+        <div 
+          className="absolute inset-[15%] rounded-full"
+          style={{
+            border: '2px solid rgba(0, 255, 68, 0.3)',
+            borderBottomColor: '#00FF66',
+            animation: 'timerRotate 5s linear infinite reverse'
+          }}
+        />
+      )}
 
       {/* Tick Marks */}
       <div 
@@ -112,7 +134,7 @@ const CountdownTimer: React.FC = () => {
             style={{
               width: 2,
               height: 6,
-              background: 'rgba(0, 255, 68, 0.4)',
+              background: isUrgent ? 'rgba(0, 255, 68, 0.6)' : 'rgba(0, 255, 68, 0.4)',
               transformOrigin: `center ${containerSize / 2 - 4}px`,
               transform: `rotate(${i * 30}deg)`,
               top: 4
@@ -124,14 +146,14 @@ const CountdownTimer: React.FC = () => {
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-2">
         {isMobile && !isExpanded ? (
-          <span className="text-2xl">💣</span>
+          <span className="text-2xl">{isUrgent ? '⚠️' : '💣'}</span>
         ) : (
           <>
             <span 
-              className="text-[0.55rem] uppercase green-text font-semibold text-center leading-tight mb-1"
+              className={`text-[0.55rem] uppercase font-semibold text-center leading-tight mb-1 ${isUrgent ? 'text-yellow-300' : 'green-text'}`}
               style={{ opacity: isExpanded ? 1 : 0, transition: 'opacity 0.3s ease' }}
             >
-              🏆 Prossimo Premio
+              {isUrgent ? '⚠️ ULTIMA ORA!' : '🏆 Prossimo Premio'}
             </span>
             
             <div 
@@ -141,23 +163,27 @@ const CountdownTimer: React.FC = () => {
               <div className="flex items-center justify-center gap-1">
                 <div className="text-center">
                   <span 
-                    className="font-mono font-black green-text"
+                    className={`font-mono font-black ${isUrgent ? 'text-yellow-300' : 'green-text'}`}
                     style={{ 
                       fontSize: isMobile ? '1rem' : '1.3rem',
-                      textShadow: '0 0 10px rgba(0, 255, 68, 0.8)'
+                      textShadow: isUrgent 
+                        ? '0 0 15px rgba(255, 255, 100, 0.9)'
+                        : '0 0 10px rgba(0, 255, 68, 0.8)'
                     }}
                   >
                     {countdown.weeks}
                   </span>
                   <div className="text-[0.45rem] text-[var(--text-muted)]">Sett</div>
                 </div>
-                <span className="green-text animate-blink mx-0.5">:</span>
+                <span className={`animate-blink mx-0.5 ${isUrgent ? 'text-yellow-300' : 'green-text'}`}>:</span>
                 <div className="text-center">
                   <span 
-                    className="font-mono font-black green-text"
+                    className={`font-mono font-black ${isUrgent ? 'text-yellow-300' : 'green-text'}`}
                     style={{ 
                       fontSize: isMobile ? '1rem' : '1.3rem',
-                      textShadow: '0 0 10px rgba(0, 255, 68, 0.8)'
+                      textShadow: isUrgent 
+                        ? '0 0 15px rgba(255, 255, 100, 0.9)'
+                        : '0 0 10px rgba(0, 255, 68, 0.8)'
                     }}
                   >
                     {countdown.days}
@@ -169,23 +195,27 @@ const CountdownTimer: React.FC = () => {
               <div className="flex items-center justify-center gap-1 mt-0.5">
                 <div className="text-center">
                   <span 
-                    className="font-mono font-black green-text"
+                    className={`font-mono font-black ${isUrgent ? 'text-yellow-300' : 'green-text'}`}
                     style={{ 
                       fontSize: isMobile ? '1rem' : '1.3rem',
-                      textShadow: '0 0 10px rgba(0, 255, 68, 0.8)'
+                      textShadow: isUrgent 
+                        ? '0 0 15px rgba(255, 255, 100, 0.9)'
+                        : '0 0 10px rgba(0, 255, 68, 0.8)'
                     }}
                   >
                     {String(countdown.hours).padStart(2, '0')}
                   </span>
                   <div className="text-[0.45rem] text-[var(--text-muted)]">Ore</div>
                 </div>
-                <span className="green-text animate-blink mx-0.5">:</span>
+                <span className={`animate-blink mx-0.5 ${isUrgent ? 'text-yellow-300' : 'green-text'}`}>:</span>
                 <div className="text-center">
                   <span 
-                    className="font-mono font-black green-text"
+                    className={`font-mono font-black ${isUrgent ? 'text-yellow-300' : 'green-text'}`}
                     style={{ 
                       fontSize: isMobile ? '1rem' : '1.3rem',
-                      textShadow: '0 0 10px rgba(0, 255, 68, 0.8)'
+                      textShadow: isUrgent 
+                        ? '0 0 15px rgba(255, 255, 100, 0.9)'
+                        : '0 0 10px rgba(0, 255, 68, 0.8)'
                     }}
                   >
                     {String(countdown.minutes).padStart(2, '0')}

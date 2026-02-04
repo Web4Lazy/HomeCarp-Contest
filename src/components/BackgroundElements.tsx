@@ -25,6 +25,13 @@ const BackgroundElements: React.FC = () => {
           zIndex: 1
         }}
       />
+      
+      {/* Wave Animation */}
+      <div className="wave-container">
+        <div className="wave" />
+        <div className="wave" />
+        <div className="wave" />
+      </div>
     </>
   );
 };
