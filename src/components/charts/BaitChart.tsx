@@ -1,5 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, LabelList } from 'recharts';
+import { Target, Fish } from 'lucide-react';
 import type { ChartData, BrandSpotlight } from '@/data/dashboardData';
 
 interface BaitChartProps {
@@ -56,8 +57,16 @@ const BaitChart: React.FC<BaitChartProps> = ({ data, brandSpotlight }) => {
           border: '1px solid rgba(0, 255, 68, 0.15)'
         }}
       >
-        <span className="text-xs uppercase font-semibold tracking-wider" style={{ color: '#00FF66' }}>
-          🎯 Brand con più catture
+        <span className="text-xs uppercase font-semibold tracking-wider flex items-center gap-1.5" style={{ color: '#00FF66' }}>
+          <span 
+            className="inline-flex"
+            style={{
+              filter: 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+            }}
+          >
+            <Target size={14} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+          </span>
+          Brand con più catture
         </span>
         <div className="flex items-center gap-4 mt-3">
           <div 
@@ -67,7 +76,14 @@ const BaitChart: React.FC<BaitChartProps> = ({ data, brandSpotlight }) => {
               border: '1px solid rgba(0, 255, 68, 0.3)'
             }}
           >
-            <span className="text-2xl">🎣</span>
+            <span 
+              className="inline-flex"
+              style={{
+                filter: 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+              }}
+            >
+              <Fish size={32} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+            </span>
           </div>
           <div>
             <div className="text-lg font-bold text-white">{brandSpotlight.name}</div>

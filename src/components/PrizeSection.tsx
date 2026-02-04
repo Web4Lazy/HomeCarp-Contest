@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trophy, Medal } from 'lucide-react';
 import type { Prize } from '@/data/dashboardData';
 
 interface PrizeSectionProps {
@@ -6,6 +7,16 @@ interface PrizeSectionProps {
 }
 
 const PrizeSection: React.FC<PrizeSectionProps> = ({ prize }) => {
+  const neonStyle = {
+    filter: 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+  };
+
+  const medalColors = [
+    { label: '1° Classificato', color: '#FFD700', glow: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.5))' },
+    { label: '2° Classificato', color: '#C0C0C0', glow: 'drop-shadow(0 0 10px rgba(192, 192, 192, 0.8)) drop-shadow(0 0 20px rgba(192, 192, 192, 0.5))' },
+    { label: '3° Classificato', color: '#CD7F32', glow: 'drop-shadow(0 0 10px rgba(205, 127, 50, 0.8)) drop-shadow(0 0 20px rgba(205, 127, 50, 0.5))' }
+  ];
+
   return (
     <section id="prize-section" className="prize-container my-8 md:my-12">
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-6 md:gap-12 items-center">
@@ -24,8 +35,11 @@ const PrizeSection: React.FC<PrizeSectionProps> = ({ prize }) => {
 
         {/* Prize Content */}
         <div>
-          <span className="text-xs uppercase tracking-wider green-text font-semibold">
-            🏆 Prossimo Premio
+          <span className="text-xs uppercase tracking-wider green-text font-semibold flex items-center gap-1.5">
+            <span className="inline-flex" style={neonStyle}>
+              <Trophy size={14} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+            </span>
+            Prossimo Premio
           </span>
           
           <h2 className="text-2xl md:text-[2.5rem] font-bold text-white mt-2 mb-3">
@@ -42,16 +56,20 @@ const PrizeSection: React.FC<PrizeSectionProps> = ({ prize }) => {
 
           {/* Winner Badges */}
           <div className="flex flex-wrap gap-2">
-            {['🥇 1° Classificato', '🥈 2° Classificato', '🥉 3° Classificato'].map((badge, index) => (
+            {medalColors.map((medal, index) => (
               <span
                 key={index}
-                className="px-3 py-1.5 rounded-2xl text-xs font-medium green-text transition-all duration-300 hover:-translate-y-0.5"
+                className="px-3 py-1.5 rounded-2xl text-xs font-medium transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-1.5"
                 style={{
                   background: 'rgba(0, 255, 68, 0.1)',
-                  border: '1px solid rgba(0, 255, 68, 0.3)'
+                  border: '1px solid rgba(0, 255, 68, 0.3)',
+                  color: medal.color
                 }}
               >
-                {badge}
+                <span className="inline-flex" style={{ filter: medal.glow }}>
+                  <Medal size={14} strokeWidth={1.5} style={{ color: medal.color }} />
+                </span>
+                {medal.label}
               </span>
             ))}
           </div>

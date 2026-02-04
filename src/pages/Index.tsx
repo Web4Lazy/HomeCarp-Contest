@@ -5,7 +5,7 @@ import StatsCard, { Users, Zap, Sparkles, Fish } from '@/components/StatsCard';
 import PrizeSection from '@/components/PrizeSection';
 import LeaderboardTable from '@/components/LeaderboardTable';
 import HighlightCard, { Trophy, TrendingUp, Star } from '@/components/HighlightCard';
-import { Fish as FishIcon } from 'lucide-react';
+import { Fish as FishIcon, Target } from 'lucide-react';
 import BaitChart from '@/components/charts/BaitChart';
 import TypeChart from '@/components/charts/TypeChart';
 import TimeChart from '@/components/charts/TimeChart';
@@ -120,10 +120,18 @@ const Index: React.FC = () => {
           {/* Pro Tips Section */}
           <section className="my-8 md:my-16">
             <h2 
-              className="text-2xl md:text-[2rem] font-extrabold mb-6 md:mb-10 relative inline-block"
+              className="text-2xl md:text-[2rem] font-extrabold mb-6 md:mb-10 relative inline-flex items-center gap-2"
               style={{ textShadow: '0 0 30px rgba(0, 255, 68, 0.4)' }}
             >
-              🎯 Pro Tips & Analytics
+              <span 
+                className="inline-flex"
+                style={{
+                  filter: 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+                }}
+              >
+                <Target size={28} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+              </span>
+              Pro Tips & Analytics
               <span 
                 className="absolute bottom-0 left-0 h-[3px] rounded"
                 style={{

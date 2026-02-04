@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCountdown } from '@/hooks/useCountdown';
+import { AlertTriangle, Timer, Trophy } from 'lucide-react';
 
 const CountdownTimer: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -146,14 +147,39 @@ const CountdownTimer: React.FC = () => {
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-2">
         {isMobile && !isExpanded ? (
-          <span className="text-2xl">{isUrgent ? '⚠️' : '💣'}</span>
+          <span 
+            className="inline-flex"
+            style={{
+              filter: isUrgent 
+                ? 'drop-shadow(0 0 12px rgba(255, 255, 100, 0.8)) drop-shadow(0 0 25px rgba(255, 255, 100, 0.5))'
+                : 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+            }}
+          >
+            {isUrgent 
+              ? <AlertTriangle size={28} strokeWidth={1.5} style={{ color: '#FBBF24' }} />
+              : <Timer size={28} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+            }
+          </span>
         ) : (
           <>
             <span 
-              className={`text-[0.55rem] uppercase font-semibold text-center leading-tight mb-1 ${isUrgent ? 'text-yellow-300' : 'green-text'}`}
+              className={`text-[0.55rem] uppercase font-semibold text-center leading-tight mb-1 flex items-center gap-1 ${isUrgent ? 'text-yellow-300' : 'green-text'}`}
               style={{ opacity: isExpanded ? 1 : 0, transition: 'opacity 0.3s ease' }}
             >
-              {isUrgent ? '⚠️ ULTIMA ORA!' : '🏆 Prossimo Premio'}
+              <span 
+                className="inline-flex"
+                style={{
+                  filter: isUrgent 
+                    ? 'drop-shadow(0 0 8px rgba(255, 255, 100, 0.8))'
+                    : 'drop-shadow(0 0 8px rgba(0, 255, 102, 0.8))'
+                }}
+              >
+                {isUrgent 
+                  ? <AlertTriangle size={10} strokeWidth={1.5} style={{ color: '#FBBF24' }} />
+                  : <Trophy size={10} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+                }
+              </span>
+              {isUrgent ? 'ULTIMA ORA!' : 'Prossimo Premio'}
             </span>
             
             <div 
