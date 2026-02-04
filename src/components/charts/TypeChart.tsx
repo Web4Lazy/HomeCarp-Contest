@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { PieChart, Pie, Cell } from 'recharts';
 import type { ChartData } from '@/data/dashboardData';
 
 interface TypeChartProps {
@@ -13,6 +13,16 @@ const TypeChart: React.FC<TypeChartProps> = ({ data }) => {
   }));
 
   const colors = ['#00FF66', '#00CC44', '#009922'];
+  
+  // Chart dimensions
+  const chartSize = 300;
+  const outerRadius = 140;
+  const innerRadius = 90;
+  const centerX = chartSize / 2;
+  const centerY = chartSize / 2;
+  
+  // Inner circle should match innerRadius exactly
+  const innerCircleSize = innerRadius * 2;
 
   return (
     <div className="chart-container relative">
@@ -21,14 +31,14 @@ const TypeChart: React.FC<TypeChartProps> = ({ data }) => {
       </h3>
       <div className="relative flex flex-col items-center">
         {/* Chart wrapper with fixed aspect ratio */}
-        <div className="relative" style={{ width: '300px', height: '300px' }}>
-          <PieChart width={300} height={300}>
+        <div className="relative" style={{ width: chartSize, height: chartSize }}>
+          <PieChart width={chartSize} height={chartSize}>
             <Pie
               data={chartData}
-              cx={150}
-              cy={150}
-              innerRadius={90}
-              outerRadius={140}
+              cx={centerX}
+              cy={centerY}
+              innerRadius={innerRadius}
+              outerRadius={outerRadius}
               paddingAngle={2}
               dataKey="value"
               stroke="none"
@@ -39,21 +49,24 @@ const TypeChart: React.FC<TypeChartProps> = ({ data }) => {
             </Pie>
           </PieChart>
           
-          {/* Black center circle with centered image */}
+          {/* Black center circle - positioned exactly at center, matching innerRadius */}
           <div 
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center"
+            className="absolute pointer-events-none overflow-hidden"
             style={{ 
-              width: '170px',
-              height: '170px',
+              width: innerCircleSize,
+              height: innerCircleSize,
               borderRadius: '50%',
               background: '#030503',
-              boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.8)'
+              boxShadow: 'inset 0 0 40px rgba(0, 0, 0, 0.9)',
+              left: centerX - innerRadius,
+              top: centerY - innerRadius,
             }}
           >
+            {/* Image fills the entire inner circle */}
             <img
               src="https://i.postimg.cc/jdWcJWn7/MAIS.png"
               alt=""
-              className="w-[100px] h-[100px] rounded-full object-cover"
+              className="w-full h-full object-cover"
               style={{
                 boxShadow: '0 0 25px rgba(0, 255, 68, 0.4)'
               }}
