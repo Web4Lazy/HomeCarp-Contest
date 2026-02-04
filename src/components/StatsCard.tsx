@@ -1,9 +1,12 @@
 import React from 'react';
 import { useAnimatedNumber } from '@/hooks/useAnimatedNumber';
-import { Users, Zap, Sparkles, Fish, LucideIcon } from 'lucide-react';
+import { Users, Zap, Sparkles, Fish } from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
+
+type IconComponent = React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
 
 interface StatsCardProps {
-  icon: LucideIcon;
+  icon: IconComponent;
   value: number;
   label: string;
   delay?: number;
@@ -26,7 +29,6 @@ const StatsCard: React.FC<StatsCardProps> = ({ icon: Icon, value, label, delay =
         <Icon 
           size={40} 
           strokeWidth={1.5}
-          className="md:w-12 md:h-12"
           style={{ color: '#00FF66' }}
         />
       </div>
@@ -44,5 +46,5 @@ const StatsCard: React.FC<StatsCardProps> = ({ icon: Icon, value, label, delay =
 
 export default StatsCard;
 
-// Export icon mappings for convenience
+// Export icons for convenience
 export { Users, Zap, Sparkles, Fish };
