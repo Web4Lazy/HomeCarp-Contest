@@ -1,118 +1,120 @@
 
-# Piano: Sostituzione Emoji con Icone Lucide + Effetto Neon
+# Piano: Animazione Hover sul Timer
 
 ## Panoramica
-Sostituirò tutte le emoji rimaste nel progetto con icone Lucide eleganti e aggiungerò l'effetto neon verde coerente con il resto dell'interfaccia.
+Aggiungerò animazioni eleganti al componente CountdownTimer che si attivano al passaggio del mouse (hover), rendendo l'interazione più dinamica e coinvolgente.
 
 ---
 
-## Emoji da sostituire
+## Animazioni da aggiungere all'hover
 
-| Componente | Emoji | Icona Lucide |
-|------------|-------|--------------|
-| Header.tsx | 🔥 | `Flame` |
-| InsightsBox.tsx | 💡 | `Lightbulb` |
-| InsightsBox.tsx | 🎯 | `Target` |
-| PrizeSection.tsx | 🏆 | `Trophy` |
-| PrizeSection.tsx | 🥇🥈🥉 | `Medal` con colori oro/argento/bronzo |
-| CountdownTimer.tsx | ⚠️ | `AlertTriangle` |
-| CountdownTimer.tsx | 🏆 | `Trophy` |
-| CountdownTimer.tsx | 💣 | `Timer` |
-| BaitChart.tsx | 🎯 | `Target` |
-| BaitChart.tsx | 🎣 | `Fish` |
-| Index.tsx | 🎯 | `Target` |
+| Effetto | Descrizione |
+|---------|-------------|
+| **Scale up** | Ingrandimento leggero (1.08x) |
+| **Glow intensificato** | Box-shadow neon più forte |
+| **Rotazione anello accelerata** | L'anello ruota più velocemente |
+| **Spark più brillante** | La scintilla sulla miccia pulsa più intensamente |
+| **Border più luminoso** | Bordo verde più acceso |
 
 ---
 
-## Modifiche per file
+## Modifiche
 
-### 1. Header.tsx
-**Riga 52**: `🔥 Pesca. Competi. Domina. 🔥`
+### 1. CountdownTimer.tsx
 
-Sostituirò con due icone `Flame` con effetto neon ai lati del testo.
+Aggiungerò uno stato `isHovered` per tracciare il passaggio del mouse e applicare stili dinamici.
 
-### 2. InsightsBox.tsx
-**Riga 7**: `💡 Pro Tip del Periodo`
-**Riga 15**: `🎯 Consiglio:`
-
-Aggiungerò icone `Lightbulb` e `Target` con neon glow inline.
-
-### 3. PrizeSection.tsx
-**Riga 28**: `🏆 Prossimo Premio`
-**Riga 45**: `🥇 1° Classificato`, `🥈 2° Classificato`, `🥉 3° Classificato`
-
-Userò `Trophy` per il premio e `Medal` con colori diversi per i badge (oro: `#FFD700`, argento: `#C0C0C0`, bronzo: `#CD7F32`).
-
-### 4. CountdownTimer.tsx
-**Riga 149**: `⚠️` / `💣` (stato compresso mobile)
-**Riga 156**: `⚠️ ULTIMA ORA!` / `🏆 Prossimo Premio`
-
-Sostituirò con `AlertTriangle`, `Timer`, e `Trophy` con effetto neon appropriato.
-
-### 5. BaitChart.tsx
-**Riga 60**: `🎯 Brand con più catture`
-**Riga 70**: `🎣` (icona brand)
-
-Userò `Target` e `Fish` con neon glow.
-
-### 6. Index.tsx
-**Riga 126**: `🎯 Pro Tips & Analytics`
-
-Aggiungerò icona `Target` con effetto neon.
-
----
-
-## Stile neon applicato
-
-Tutte le icone avranno lo stesso effetto neon coerente:
-
-```css
-filter: drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) 
-        drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))
+**Nuovo stato:**
+```tsx
+const [isHovered, setIsHovered] = useState(false);
 ```
 
-Le icone per le medaglie avranno colori specifici:
-- **Oro**: `#FFD700` con glow dorato
-- **Argento**: `#C0C0C0` con glow argentato  
-- **Bronzo**: `#CD7F32` con glow ramato
+**Eventi hover sul container:**
+```tsx
+onMouseEnter={() => setIsHovered(true)}
+onMouseLeave={() => setIsHovered(false)}
+```
+
+**Stili hover applicati:**
+- `transform: scale(1.08)` - ingrandimento
+- Box-shadow intensificato con doppio glow neon
+- Transizione fluida su tutti gli effetti
+
+### 2. index.css
+
+Aggiungerò una nuova keyframe animation per l'effetto hover:
+
+```css
+@keyframes timerHoverGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 40px rgba(0, 255, 68, 0.7),
+      0 0 80px rgba(0, 255, 68, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 60px rgba(0, 255, 68, 0.9),
+      0 0 120px rgba(0, 255, 68, 0.5);
+  }
+}
+```
+
+---
+
+## Risultato visivo
+
+Quando l'utente passa il mouse sul timer:
+1. Il timer si ingrandisce leggermente con una transizione fluida
+2. Il bagliore neon verde si intensifica e pulsa
+3. L'anello rotante accelera (da 10s a 3s)
+4. La scintilla sulla miccia diventa più grande e brillante
+5. Il bordo verde diventa più luminoso
 
 ---
 
 ## Sezione tecnica
 
-### Import necessari per ogni file:
-
-```typescript
-// Header.tsx
-import { Flame } from 'lucide-react';
-
-// InsightsBox.tsx
-import { Lightbulb, Target } from 'lucide-react';
-
-// PrizeSection.tsx
-import { Trophy, Medal } from 'lucide-react';
-
-// CountdownTimer.tsx
-import { AlertTriangle, Timer, Trophy } from 'lucide-react';
-
-// BaitChart.tsx
-import { Target, Fish } from 'lucide-react';
-
-// Index.tsx
-import { Target } from 'lucide-react';
-```
-
-### Componente helper per icone inline
-
-Creerò un pattern riutilizzabile per le icone inline con neon:
+### Stato hover
 
 ```tsx
-<span 
-  className="inline-flex items-center"
+const [isHovered, setIsHovered] = useState(false);
+```
+
+### Eventi sul container
+
+```tsx
+<div
+  onClick={handleClick}
+  onMouseEnter={() => setIsHovered(true)}
+  onMouseLeave={() => setIsHovered(false)}
+  className={...}
   style={{
-    filter: 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+    ...
+    transform: isHovered ? 'scale(1.08)' : 'scale(1)',
+    boxShadow: isHovered
+      ? '0 0 50px rgba(0, 255, 68, 0.7), 0 0 100px rgba(0, 255, 68, 0.4), inset 0 0 30px rgba(0, 255, 68, 0.25)'
+      : '0 0 20px rgba(0, 255, 68, 0.4), 0 0 40px rgba(0, 255, 68, 0.2), inset 0 0 15px rgba(0, 255, 68, 0.1)',
+    border: isHovered ? '3px solid #00FF66' : '2px solid #00FF66',
   }}
 >
-  <IconName size={16} strokeWidth={1.5} style={{ color: '#00FF66' }} />
-</span>
+```
+
+### Anello rotante accelerato all'hover
+
+```tsx
+animation: isHovered 
+  ? 'timerRotate 3s linear infinite' 
+  : (isUrgent ? 'timerRotate 3s linear infinite' : 'timerRotate 10s linear infinite')
+```
+
+### Spark più intenso all'hover
+
+```tsx
+style={{
+  width: isHovered || isUrgent ? 14 : 10,
+  height: isHovered || isUrgent ? 14 : 10,
+  boxShadow: isHovered || isUrgent 
+    ? '0 0 25px #00FF66, 0 0 50px #00FF66, 0 0 75px #00FF44'
+    : '0 0 15px #00FF66, 0 0 30px #00FF66'
+}}
 ```
