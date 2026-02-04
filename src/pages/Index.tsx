@@ -4,7 +4,8 @@ import Header from '@/components/Header';
 import StatsCard, { Users, Zap, Sparkles, Fish } from '@/components/StatsCard';
 import PrizeSection from '@/components/PrizeSection';
 import LeaderboardTable from '@/components/LeaderboardTable';
-import HighlightCard from '@/components/HighlightCard';
+import HighlightCard, { Trophy, TrendingUp, Star } from '@/components/HighlightCard';
+import { Fish as FishIcon } from 'lucide-react';
 import BaitChart from '@/components/charts/BaitChart';
 import TypeChart from '@/components/charts/TypeChart';
 import TimeChart from '@/components/charts/TimeChart';
@@ -43,7 +44,14 @@ const Index: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="text-4xl mb-4 animate-pulse">🎣</div>
+          <div 
+            className="mb-4 animate-pulse flex justify-center"
+            style={{
+              filter: 'drop-shadow(0 0 12px rgba(0, 255, 102, 0.8)) drop-shadow(0 0 25px rgba(0, 255, 102, 0.5))'
+            }}
+          >
+            <FishIcon size={48} strokeWidth={1.5} style={{ color: '#00FF66' }} />
+          </div>
           <p className="green-text">Caricamento...</p>
         </div>
       </div>
@@ -83,19 +91,19 @@ const Index: React.FC = () => {
           {/* Highlights */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
             <HighlightCard 
-              icon="🏆" 
+              icon={Trophy} 
               title="Most Active" 
               value={data.highlights.mostActive.player} 
               detail={data.highlights.mostActive.detail} 
             />
             <HighlightCard 
-              icon="📈" 
+              icon={TrendingUp} 
               title="Record Month" 
               value={data.highlights.record.player} 
               detail={data.highlights.record.detail} 
             />
             <HighlightCard 
-              icon="⭐" 
+              icon={Star} 
               title="Rising Star" 
               value={data.highlights.rising.player} 
               detail={data.highlights.rising.detail} 
