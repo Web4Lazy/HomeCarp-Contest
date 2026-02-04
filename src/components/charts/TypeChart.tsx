@@ -19,15 +19,15 @@ const TypeChart: React.FC<TypeChartProps> = ({ data }) => {
       <h3 className="text-white text-base font-semibold mb-4 text-center">
         Distribuzione Tipologie
       </h3>
-      <div className="h-[280px] relative">
+      <div className="h-[380px] relative">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
               cy="45%"
-              innerRadius={60}
-              outerRadius={100}
+              innerRadius={90}
+              outerRadius={140}
               paddingAngle={2}
               dataKey="value"
               stroke="none"
@@ -44,17 +44,23 @@ const TypeChart: React.FC<TypeChartProps> = ({ data }) => {
           </PieChart>
         </ResponsiveContainer>
         
-        {/* Center Image */}
+        {/* Black center circle with centered image */}
         <div 
-          className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-          style={{ top: 'calc(45% - 35px)' }}
+          className="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center"
+          style={{ 
+            width: '170px',
+            height: '170px',
+            borderRadius: '50%',
+            background: '#030503',
+            boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.8)'
+          }}
         >
           <img
             src="https://i.postimg.cc/jdWcJWn7/MAIS.png"
             alt=""
-            className="w-[70px] h-[70px] rounded-full object-cover"
+            className="w-[100px] h-[100px] rounded-full object-cover"
             style={{
-              boxShadow: '0 0 20px rgba(0, 255, 68, 0.3)'
+              boxShadow: '0 0 25px rgba(0, 255, 68, 0.4)'
             }}
           />
         </div>
