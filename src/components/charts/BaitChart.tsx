@@ -20,27 +20,28 @@ const BaitChart: React.FC<BaitChartProps> = ({ data, brandSpotlight }) => {
       <h3 className="text-white text-base font-semibold mb-4 text-center">
         Esche Più Usate
       </h3>
-      <div className="h-[250px]">
+      <div className="h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 40 }}>
+          <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 50 }}>
             <XAxis type="number" hide />
             <YAxis 
               type="category" 
               dataKey="name" 
-              tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 12 }}
-              width={100}
+              tick={{ fill: '#00FF66', fontSize: 12, fontWeight: 500 }}
+              width={110}
               axisLine={false}
               tickLine={false}
             />
-            <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={24}>
+            <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={36}>
               {chartData.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index]} stroke="#00FF44" strokeWidth={2} />
+                <Cell key={`cell-${index}`} fill={colors[index]} stroke="none" />
               ))}
               <LabelList 
                 dataKey="value" 
                 position="right" 
-                fill="rgba(255,255,255,0.7)" 
-                fontSize={12}
+                fill="#00FF66"
+                fontSize={13}
+                fontWeight={600}
               />
             </Bar>
           </BarChart>
@@ -55,7 +56,7 @@ const BaitChart: React.FC<BaitChartProps> = ({ data, brandSpotlight }) => {
           border: '1px solid rgba(0, 255, 68, 0.15)'
         }}
       >
-        <span className="text-xs uppercase green-text font-semibold tracking-wider">
+        <span className="text-xs uppercase font-semibold tracking-wider" style={{ color: '#00FF66' }}>
           🎯 Brand con più catture
         </span>
         <div className="flex items-center gap-4 mt-3">
@@ -70,7 +71,7 @@ const BaitChart: React.FC<BaitChartProps> = ({ data, brandSpotlight }) => {
           </div>
           <div>
             <div className="text-lg font-bold text-white">{brandSpotlight.name}</div>
-            <div className="text-sm green-text">
+            <div className="text-sm" style={{ color: '#00FF66' }}>
               {brandSpotlight.catches.toLocaleString()} catture questo mese
             </div>
           </div>
