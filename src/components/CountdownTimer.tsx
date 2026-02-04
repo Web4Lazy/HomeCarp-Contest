@@ -5,6 +5,7 @@ import { AlertTriangle, Timer, Trophy } from 'lucide-react';
 const CountdownTimer: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const countdown = useCountdown();
 
   // Check if less than 1 day remaining
@@ -51,7 +52,9 @@ const CountdownTimer: React.FC = () => {
   return (
     <div
       onClick={handleClick}
-      className={`fixed cursor-pointer transition-all duration-400 ${isUrgent ? 'animate-urgent-pulse' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`fixed cursor-pointer transition-all duration-300 ${isUrgent && !isHovered ? 'animate-urgent-pulse' : ''}`}
       style={{
         bottom: isMobile ? 20 : 30,
         right: isMobile ? 20 : 30,
@@ -62,10 +65,13 @@ const CountdownTimer: React.FC = () => {
         background: isUrgent 
           ? 'radial-gradient(ellipse at center, rgba(20, 35, 10, 0.98) 0%, rgba(10, 20, 5, 0.99) 100%)'
           : 'radial-gradient(ellipse at center, rgba(10, 25, 10, 0.95) 0%, rgba(5, 15, 5, 0.98) 100%)',
-        border: isUrgent ? '3px solid #00FF66' : '2px solid #00FF66',
-        boxShadow: isUrgent
-          ? '0 0 40px rgba(0, 255, 68, 0.6), 0 0 80px rgba(0, 255, 68, 0.3), inset 0 0 25px rgba(0, 255, 68, 0.2)'
-          : '0 0 20px rgba(0, 255, 68, 0.4), 0 0 40px rgba(0, 255, 68, 0.2), inset 0 0 15px rgba(0, 255, 68, 0.1)',
+        border: isHovered ? '3px solid #00FF66' : (isUrgent ? '3px solid #00FF66' : '2px solid #00FF66'),
+        boxShadow: isHovered
+          ? '0 0 50px rgba(0, 255, 68, 0.7), 0 0 100px rgba(0, 255, 68, 0.4), inset 0 0 30px rgba(0, 255, 68, 0.25)'
+          : (isUrgent
+            ? '0 0 40px rgba(0, 255, 68, 0.6), 0 0 80px rgba(0, 255, 68, 0.3), inset 0 0 25px rgba(0, 255, 68, 0.2)'
+            : '0 0 20px rgba(0, 255, 68, 0.4), 0 0 40px rgba(0, 255, 68, 0.2), inset 0 0 15px rgba(0, 255, 68, 0.1)'),
+        transform: isHovered ? 'scale(1.08)' : 'scale(1)',
       }}
     >
       {/* Bomb Fuse */}
@@ -82,32 +88,33 @@ const CountdownTimer: React.FC = () => {
           transition: 'opacity 0.3s ease'
         }}
       >
-        {/* Spark - more intense when urgent */}
+        {/* Spark - more intense when urgent or hovered */}
         <div 
           className="absolute animate-fuse-spark"
           style={{
             top: -8,
             left: '50%',
-            width: isUrgent ? 14 : 10,
-            height: isUrgent ? 14 : 10,
+            width: isHovered || isUrgent ? 14 : 10,
+            height: isHovered || isUrgent ? 14 : 10,
             background: '#00FF66',
             borderRadius: '50%',
-            boxShadow: isUrgent 
+            boxShadow: isHovered || isUrgent 
               ? '0 0 25px #00FF66, 0 0 50px #00FF66, 0 0 75px #00FF44'
-              : '0 0 15px #00FF66, 0 0 30px #00FF66'
+              : '0 0 15px #00FF66, 0 0 30px #00FF66',
+            transition: 'all 0.3s ease'
           }}
         />
       </div>
 
-      {/* Rotating Ring - faster when urgent */}
+      {/* Rotating Ring - faster when urgent or hovered */}
       <div 
         className="absolute inset-[5%] rounded-full"
         style={{
-          border: isUrgent ? '3px solid rgba(0, 255, 68, 0.5)' : '2px solid rgba(0, 255, 68, 0.3)',
+          border: isHovered || isUrgent ? '3px solid rgba(0, 255, 68, 0.5)' : '2px solid rgba(0, 255, 68, 0.3)',
           borderTopColor: '#00FF66',
           opacity: isExpanded ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-          animation: isUrgent ? 'timerRotate 3s linear infinite' : 'timerRotate 10s linear infinite'
+          transition: 'all 0.3s ease',
+          animation: isHovered || isUrgent ? 'timerRotate 3s linear infinite' : 'timerRotate 10s linear infinite'
         }}
       />
 
