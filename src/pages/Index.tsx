@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BackgroundElements from '@/components/BackgroundElements';
 import Header from '@/components/Header';
-import StatsCard from '@/components/StatsCard';
+import StatsCard, { Users, Zap, Sparkles, Fish } from '@/components/StatsCard';
 import PrizeSection from '@/components/PrizeSection';
 import LeaderboardTable from '@/components/LeaderboardTable';
 import HighlightCard from '@/components/HighlightCard';
@@ -71,10 +71,10 @@ const Index: React.FC = () => {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 my-8">
-            <StatsCard icon="👥" value={data.stats.totalPlayers} label="Total Players" delay={0} />
-            <StatsCard icon="⚡" value={data.stats.activeThisWeek} label="Active This Week" delay={100} />
-            <StatsCard icon="✨" value={data.stats.newMembers} label="New Members" delay={200} />
-            <StatsCard icon="🎣" value={data.stats.totalCatches} label="Total Catches" delay={300} />
+            <StatsCard icon={Users} value={data.stats.totalPlayers} label="Total Players" delay={0} />
+            <StatsCard icon={Zap} value={data.stats.activeThisWeek} label="Active This Week" delay={100} />
+            <StatsCard icon={Sparkles} value={data.stats.newMembers} label="New Members" delay={200} />
+            <StatsCard icon={Fish} value={data.stats.totalCatches} label="Total Catches" delay={300} />
           </div>
 
           {/* Leaderboard */}
